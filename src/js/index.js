@@ -1,0 +1,1 @@
+console.log('alo yoba eto tu')

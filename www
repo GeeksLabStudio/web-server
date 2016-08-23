@@ -1,0 +1,33 @@
+#!/usr/bin/env node
+
+'use strict';
+
+process.env.NODE_ENV = process.env.NODE_ENV || 'development';
+
+var express = require('express');
+
+var config = {
+    root : __dirname,
+    public: __dirname + '/dist',
+    port: 4000
+}
+
+// Setup server
+var app = express();
+var server = require('http').createServer(app);
+
+app.use(express.static(config.public));
+
+app.use('/*', function(req,res){
+    res.sendFile(config.public + '/index.html');
+})
+
+// Start server
+server.listen(config.port, function(){
+    console.log('Root folder\t%s', config.root);
+    console.log('Public folder\t%s', config.public);
+    console.log('Web server listening on %d, in %s mode',
+        config.port,
+        app.get('env')
+    );
+});
