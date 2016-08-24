@@ -1,14 +1,14 @@
 var gulp = require('gulp'),
-    less = require('gulp-less'),
-    autoprefixer = require('gulp-autoprefixer'),
-    cleanCSS = require('gulp-clean-css'),
-    uglify = require('gulp-uglify'),
-    rename = require('gulp-rename')
-    jade = require('gulp-jade'),
-    concat = require('gulp-concat'),
-    sourcemaps = require('gulp-sourcemaps'),
-    refresh = require('gulp-livereload'),
-    jshint = require('gulp-jshint');
+  less = require('gulp-less'),
+  autoprefixer = require('gulp-autoprefixer'),
+  cleanCSS = require('gulp-clean-css'),
+  uglify = require('gulp-uglify'),
+  rename = require('gulp-rename')
+jade = require('gulp-jade'),
+  concat = require('gulp-concat'),
+  sourcemaps = require('gulp-sourcemaps'),
+  refresh = require('gulp-livereload'),
+  jshint = require('gulp-jshint');
 
 var transform = require('vinyl-transform');
 // livereload
@@ -19,159 +19,154 @@ var source = 'src/';
 console.log('Building client to "%s" path', out_source);
 
 var paths = {
-    source: source,
-    styles: source + 'less/*.less',
-    fonts: source + 'fonts/**/*',
-    scripts: [
-        source + 'js/index.js',
-        source + 'js/**/module.js',
-        source + 'js/**/*.js'
-    ],
-    views: source + 'views/*.jade',
-    index: source + 'index.jade',
-    libs: [
-        source + 'libs/**/jquery.min.js',
-        source + 'libs/**/*.js',
-        source + 'libs/*.js'
-    ],
-    misc: source + 'misc/**/*',
-    out: {
-        source: out_source,
-        styles: out_source + 'styles',
-        fonts: out_source + 'styles/fonts',
-        app: out_source + 'js',
-        app_filename: 'main.js',
-        views: out_source + 'views',
-        libs_filename: 'libs.js',
-        components: out_source + 'components'
-    }
+  source: source,
+  styles: source + 'less/*.less',
+  fonts: source + 'fonts/**/*',
+  scripts: [
+    source + 'js/index.js',
+    source + 'js/**/module.js',
+    source + 'js/**/*.js'
+  ],
+  views: source + 'views/*.jade',
+  index: source + 'index.jade',
+  partials: source + 'partials/**/*.jade',
+  libs: [
+    source + 'libs/**/jquery.min.js',
+    source + 'libs/**/*.js',
+    source + 'libs/*.js'
+  ],
+  misc: source + 'misc/**/*',
+  out: {
+    source: out_source,
+    styles: out_source + 'styles',
+    fonts: out_source + 'styles/fonts',
+    app: out_source + 'js',
+    app_filename: 'main.js',
+    views: out_source + 'views',
+    libs_filename: 'libs.js',
+    components: out_source + 'components'
+  }
 }
 
 //
 // Custom less styles
 // ------------------------------------
 //
-gulp.task('styles', function(){
-    return gulp.src(paths.styles)
-        .pipe(sourcemaps.init({
-            // loadMaps: true,
-            debug: true,
-            includeContent: false,
-            sourceRoot: '/less'
-        }))
-        .pipe(less()).on('error', console.log)
-        .pipe(cleanCSS({compatibility: 'ie8'}))
-        .pipe(autoprefixer({
-            browsers: ['last 2 versions'],
-            cascade: false
-        }))
-        .pipe(sourcemaps.write('./maps/'))
-        .pipe(gulp.dest(paths.out.styles))
+gulp.task('styles', function() {
+  return gulp.src(paths.styles)
+    .pipe(sourcemaps.init({
+      // loadMaps: true,
+      debug: true,
+      includeContent: false,
+      sourceRoot: '/less'
+    }))
+    .pipe(less()).on('error', console.log)
+    .pipe(cleanCSS({ compatibility: 'ie8' }))
+    .pipe(autoprefixer({
+      browsers: ['last 2 versions'],
+      cascade: false
+    }))
+    .pipe(sourcemaps.write('./maps/'))
+    .pipe(gulp.dest(paths.out.styles))
 });
 
 //
 // Fonts
 // ------------------------------------
 //
-gulp.task('fonts', function(){
-    return gulp.src(paths.fonts)
-        .pipe(gulp.dest(paths.out.fonts))
+gulp.task('fonts', function() {
+  return gulp.src(paths.fonts)
+    .pipe(gulp.dest(paths.out.fonts))
 });
 
 //
 // Scripts
 // ------------------------------------
 //
-gulp.task('scripts', function(){
-    return gulp.src(paths.scripts, { base: 'js' })
-        .pipe(jshint())
-        .pipe(sourcemaps.init({
-            // loadMaps: true,
-            debug: true,
-            includeContent: false,
-            sourceRoot: '/js'
-        }))
-        .pipe(concat(paths.out.app_filename))
-        .pipe(uglify().on('error', console.log))
-        .pipe(sourcemaps.write('./maps/'))
-        .pipe(gulp.dest(paths.out.app))
+gulp.task('scripts', function() {
+  return gulp.src(paths.scripts, { base: 'js' })
+    .pipe(jshint())
+    .pipe(sourcemaps.init({
+      // loadMaps: true,
+      debug: true,
+      includeContent: false,
+      sourceRoot: '/js'
+    }))
+    .pipe(concat(paths.out.app_filename))
+    .pipe(uglify().on('error', console.log))
+    .pipe(sourcemaps.write('./maps/'))
+    .pipe(gulp.dest(paths.out.app))
 });
 
 //
 // Library's
 // ------------------------------------
 //
-gulp.task('libs', function(){
-    return gulp.src(paths.libs)
-        .pipe(concat(paths.out.libs_filename))
-        .pipe(gulp.dest(paths.out.app))
+gulp.task('libs', function() {
+  return gulp.src(paths.libs)
+    .pipe(concat(paths.out.libs_filename))
+    .pipe(gulp.dest(paths.out.app))
 });
 
 //
 // Misc file's
 // ------------------------------------
 //
-gulp.task('misc', function(){
-    return gulp.src(paths.misc)
-        .pipe(gulp.dest(paths.out.source))
+gulp.task('misc', function() {
+  return gulp.src(paths.misc)
+    .pipe(gulp.dest(paths.out.source))
 });
 
 //
 // Views
 // ------------------------------------
 //
-gulp.task('views', function(){
-    return gulp.src(paths.views)
-        .pipe(jade({
-            locals: require( './' + source + 'views/locals') || {}
-        }))
-        .on('error', console.log)
-        .pipe(gulp.dest(paths.out.views))
+gulp.task('views', function() {
+  return gulp.src(paths.views)
+    .pipe(jade({
+      locals: {}
+    }))
+    .on('error', console.log)
+    .pipe(gulp.dest(paths.out.views))
 });
 
 //
 // index
 // ------------------------------------
 //
-gulp.task('index', function(){
-    return gulp.src(paths.index)
-        .pipe(jade({
-            locals: {}
-        }))
-        .on('error', console.log)
-        .pipe(gulp.dest(paths.out.source))
+gulp.task('index', function() {
+  return gulp.src(paths.index)
+    .pipe(jade({
+      locals: {}
+    }))
+    .on('error', console.log)
+    .pipe(gulp.dest(paths.out.source))
 });
 
 // ------------------------------------
 
-gulp.task('build',[
-    'styles',
-    'fonts',
-    'scripts',
-    'index',
-    // 'views',
-    'libs',
-    'misc'
+gulp.task('build', [
+  'styles',
+  'fonts',
+  'scripts',
+  'index',
+  'views',
+  'libs',
+  'misc'
 ]);
 
-gulp.task('default', ['build'], function(){
-    gulp.start('watch');
+gulp.task('default', ['build'], function() {
+  gulp.start('watch');
 });
 
-gulp.task('watch', function(){
+gulp.task('watch', function() {
+  require('./www');
 
-    require('./www');
-    refresh.listen();
+  refresh.listen();
 
-    gulp.watch(paths.styles, ['styles']);
-
-    gulp.watch(paths.index, ['index']);
-    gulp.watch(paths.views, ['views']);
-
-    gulp.watch(paths.scripts, ['scripts']);
-
-    // gulp.watch('source/partials/*.jade', ['partials']);
-
-    // gulp.watch('source/img/*', ['images']);
-
+  gulp.watch(source + 'less/**/*.less', ['styles']);
+  gulp.watch(paths.index, ['index']);
+  gulp.watch(paths.views, ['views', 'index']);
+  gulp.watch(paths.partials, ['index', 'views']);
+  gulp.watch(paths.scripts, ['scripts']);
 });
