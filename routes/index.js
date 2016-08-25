@@ -1,6 +1,16 @@
 var express = require('express');
 
 module.exports = function(app) {
-  app.get('/', (req, res) => {res.render('index')});
-  app.get('/store', (req, res) => {res.render('store')});
+	// index
+  app.get('/', (req, res) => {
+  	res.render('index', { title: 'Home page' })
+  });
+  // store
+  app.get('/store', (req, res) => {
+  	res.render('store', {title: 'Store page'})
+  });
+  // other routs
+  app.get('*', (req, res) => {
+  	res.render('index', { title: 'Home page' })
+  });
 };

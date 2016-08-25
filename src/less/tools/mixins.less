@@ -1,0 +1,16 @@
+// mixins
+
+// clean floats
+.clear {
+	&:after {
+		content: "";
+		display: block;
+		clear: both;
+	}
+}
+
+// container
+.container {
+	max-width: @container-width;
+	margin: 0 auto;
+}

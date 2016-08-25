@@ -32,11 +32,13 @@ var paths = {
     source + 'libs/**/*.js',
     source + 'libs/*.js'
   ],
+  images: source + 'images/**/*',
   misc: source + 'misc/**/*',
   out: {
     source: out_source,
     styles: out_source + 'styles',
     fonts: out_source + 'styles/fonts',
+    images: out_source + 'images',
     app: out_source + 'js',
     app_filename: 'main.js',
     views: out_source + 'views',
@@ -128,6 +130,15 @@ gulp.task('views', function() {
 });
 
 //
+// images
+// ------------------------------------
+//
+gulp.task('images', function() {
+  return gulp.src(paths.images)
+    .pipe(gulp.dest(paths.out.images))
+});
+
+//
 // index
 // ------------------------------------
 //
@@ -147,9 +158,10 @@ gulp.task('build', [
   'fonts',
   'scripts',
   'index',
-  'views',
+  // 'views',
   'libs',
-  'misc'
+  'misc',
+  'images'
 ]);
 
 gulp.task('default', ['build'], function() {
@@ -163,7 +175,8 @@ gulp.task('watch', function() {
 
   gulp.watch(source + 'less/**/*.less', ['styles']);
   gulp.watch(paths.index, ['index']);
-  gulp.watch(paths.views, ['views', 'index']);
+  // gulp.watch(paths.views, ['views']);
   gulp.watch(paths.partials, ['index', 'views']);
   gulp.watch(paths.scripts, ['scripts']);
+  gulp.watch(paths.images, ['images']);
 });

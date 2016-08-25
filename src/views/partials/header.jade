@@ -1,3 +1,11 @@
+//- header
 header
-	|header
-	//- img(src="./images/logo.png", alt="logo")
+	a(href="/").logo
+		img(src="./images/logo.png", alt="logo")
+//- navigation
+nav
+	//- links
+	ul.links
+		each val in ['store', 'home']
+			li
+				a(href=val)= val
