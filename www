@@ -1,10 +1,10 @@
 #!/usr/bin/env node
-
 'use strict';
 
 process.env.NODE_ENV = process.env.NODE_ENV || 'development';
 
 var express = require('express');
+var path = require('path');
 
 var config = {
     root : __dirname,
@@ -16,11 +16,13 @@ var config = {
 var app = express();
 var server = require('http').createServer(app);
 
+// view engine setup
+app.set('views', path.join(__dirname, 'src/views'));
+app.set('view engine', 'jade');
+
 app.use(express.static(config.public));
 
-app.use('/*', function(req,res){
-    res.sendFile(config.public + '/index.html');
-})
+require('./routes')(app);
 
 // Start server
 server.listen(config.port, function(){

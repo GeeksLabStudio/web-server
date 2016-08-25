@@ -1,0 +1,15 @@
+doctype html
+html(lang="en")
+	head
+		//- head
+		include partials/head.jade	
+	body
+		//- header
+		include partials/header.jade
+		main
+			//- dynamic content
+			block content
+		//- footer
+		include partials/footer.jade
+		//- scripts block
+		include partials/scripts.jade

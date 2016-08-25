@@ -4,16 +4,13 @@ var gulp = require('gulp'),
   cleanCSS = require('gulp-clean-css'),
   uglify = require('gulp-uglify'),
   rename = require('gulp-rename')
-jade = require('gulp-jade'),
+  jade = require('gulp-jade'),
   concat = require('gulp-concat'),
   sourcemaps = require('gulp-sourcemaps'),
   refresh = require('gulp-livereload'),
   jshint = require('gulp-jshint');
 
 var transform = require('vinyl-transform');
-// livereload
-
-
 var out_source = process.env.OUT || 'dist/';
 var source = 'src/';
 console.log('Building client to "%s" path', out_source);
