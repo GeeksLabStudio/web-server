@@ -9,8 +9,4 @@ module.exports = function(app) {
   app.get('/store', (req, res) => {
   	res.render('store', {title: 'Store page'})
   });
-  // other routs
-  app.get('*', (req, res) => {
-  	res.render('index', { title: 'Home page' })
-  });
 };
